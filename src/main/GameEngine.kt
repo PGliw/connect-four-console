@@ -1,8 +1,10 @@
 package main
 
 class GameEngine {
-    var player = 1
-    var state = Board(Array(6) { Array(7) { 0 } })
+    private var player = 1
+    private var state = Board(Array(6) { Array(7) { 0 } })
+    private val opponent
+        get() = if (player == 1) 2 else 1
 
     // starts game loop
     fun start() {
@@ -16,6 +18,8 @@ class GameEngine {
             if (movements.isEmpty()) {
                 break
             }
+            println("Twoja heurystyka: ${state.heuristicScore(player, opponent)}")
+            // println(state.heuristicScore(player, opponent))
             print("Ruch $player: $movements> ")
 
             // make move
@@ -28,7 +32,7 @@ class GameEngine {
             winner = state.assess()
             if (winner > 0) break
 
-            player = if (player == 1) 2 else 1
+            player = opponent
         }
 
         // show results

@@ -67,10 +67,10 @@ fun Array<Array<Int>>.draw() {
     }
 }
 
-fun List<Int>.containsSeqenceOf(element: Int, sequenceLength: Int): Boolean {
+fun List<Int>.containsSeqenceOf(sequenceLength: Int, vararg element: Int): Boolean {
     for (i in 0..(size - sequenceLength)) {
         val slice = this.slice(i until (i + sequenceLength))
-        if (slice.all { it == element }) return true
+        if (slice.all { it in element }) return true
     }
     return false
 }

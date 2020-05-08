@@ -1,6 +1,6 @@
 package main
 
-class Board(private val fields: Array<Array<Int>>) {
+class Board(val fields: Array<Array<Int>>) {
     fun availableColumns(): List<Int> {
         val allColumns = fields.columns().withIndex()
         val availableColumns = allColumns.filter { it.value.contains(0) }
@@ -27,7 +27,7 @@ class Board(private val fields: Array<Array<Int>>) {
         }
 
         for (player in 1..2) {
-            if (allDirections.any { list -> list.containsSeqenceOf(player, 4) }) {
+            if (allDirections.any { list -> list.containsSeqenceOf(4, player) }) {
                 return player
             }
         }
