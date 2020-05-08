@@ -10,7 +10,7 @@ class Board(val fields: Array<Array<Int>>) {
     fun insert(column: Int, player: Int): Board {
         val columns = fields.columns()
         val index = columns[column].indexOfLast { it == 0 }
-        val newFields = fields.copyOf()
+        val newFields = fields.deepCopy()
         newFields[index][column] = player
         return Board(newFields)
     }

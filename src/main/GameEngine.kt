@@ -1,31 +1,5 @@
 package main
 
-interface IPlayerController {
-    fun register(gameEngine: GameEngine)
-    fun makeMove()
-}
-
-class PhysicalPlayer(val number: Int) : IPlayerController {
-    private val opponent = if (number == 1) 2 else 1
-    private var gameEngine: GameEngine? = null
-
-    override fun register(gameEngine: GameEngine) {
-        this.gameEngine = gameEngine
-    }
-
-    override fun makeMove() {
-        val gameEngine = gameEngine
-        if (gameEngine != null) {
-            println("Twoja heurystyka: ${gameEngine.board.heuristicScore(number, opponent)}")
-            print("Ruch $number: ${gameEngine.availableMovements}> ")
-
-            // make move
-            val column = readLine()!!.toInt()
-            gameEngine.board = gameEngine.board.insert(column, number)
-        } else throw NullPointerException("Game engine not registered (id null) in player $number")
-    }
-}
-
 class GameEngine
     (
     private val player1Controller: IPlayerController,

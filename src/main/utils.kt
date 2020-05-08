@@ -74,3 +74,7 @@ fun List<Int>.containsSeqenceOf(sequenceLength: Int, vararg element: Int): Boole
     }
     return false
 }
+
+fun Array<Array<Int>>.deepCopy(): Array<Array<Int>> {
+    return map { it.clone() }.toTypedArray()
+}
