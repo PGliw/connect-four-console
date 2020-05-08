@@ -1,15 +1,29 @@
 package main
 
+interface BoardOwner {
+    fun provide(): Board
+    fun update(board: Board)
+}
+
+
 class GameEngine
     (
     private val player1Controller: IPlayerController,
     private val player2Controller: IPlayerController
-) {
-    private var player = 1
+) : BoardOwner {
+    private var turn = 1
+    private fun nextTurn() {
+        turn = if (turn == 1) 2 else 1
+    }
+
     var board = Board(Array(6) { Array(7) { 0 } })
-    private val opponent
-        get() = if (player == 1) 2 else 1
     var availableMovements = listOf<Int>()
+
+    override fun provide() = this.board
+
+    override fun update(board: Board) {
+        this.board = board
+    }
 
     init {
         player1Controller.register(this)
@@ -29,18 +43,17 @@ class GameEngine
                 break
             }
 
-            val currentPlayerController = if (player == 1) player1Controller else player2Controller
+            val currentPlayerController = if (turn == 1) player1Controller else player2Controller
             currentPlayerController.makeMove()
 
             // assess state
-            val score = board.assess(player, opponent)
-            winner = when (score) {
-                Int.MAX_VALUE -> player
-                Int.MIN_VALUE -> opponent
+            winner = when (board.assess()) {
+                Int.MAX_VALUE -> 1
+                Int.MIN_VALUE -> 2
                 else -> 0
             }
 
-            player = opponent
+            nextTurn()
         }
 
         // show result1s

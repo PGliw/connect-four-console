@@ -2,43 +2,42 @@ package main
 
 interface IPlayerController {
     val number: Int
-    fun register(gameEngine: GameEngine)
+    fun register(boardOwner: BoardOwner)
     fun makeMove()
 }
 
 class PhysicalPlayer(override val number: Int) : IPlayerController {
-    private val opponent = if (number == 1) 2 else 1
-    private var gameEngine: GameEngine? = null
+    private var boardOwner: BoardOwner? = null
 
-    override fun register(gameEngine: GameEngine) {
-        this.gameEngine = gameEngine
+    override fun register(boardOwner: BoardOwner) {
+        this.boardOwner = boardOwner
     }
 
     override fun makeMove() {
-        val gameEngine =
-            gameEngine ?: throw NullPointerException("Game engine not registered (id null) in player $number")
-        println("Twoja heurystyka: ${gameEngine.board.heuristicScore(number, opponent)}")
-        print("Ruch $number: ${gameEngine.availableMovements}> ")
+        val boardOwner =
+            boardOwner ?: throw NullPointerException("Game engine not registered (id null) in player $number")
+        val board = boardOwner.provide()
+        println("Heurystyka: ${board.heuristicScore()}")
+        print("Ruch $number: ${board.availableColumns()}> ")
 
         // make move
         val column = readLine()!!.toInt()
-        gameEngine.board = gameEngine.board.insert(column, number)
+        boardOwner.update(board.insert(column, number))
     }
 }
 
 class MiniMaxAiPlayer(override val number: Int) : IPlayerController {
-    private var gameEngine: GameEngine? = null
-    private val opponent = if (number == 1) 2 else 1
+    private var boardOwner: BoardOwner? = null
 
-    override fun register(gameEngine: GameEngine) {
-        this.gameEngine = gameEngine
+    override fun register(boardOwner: BoardOwner) {
+        this.boardOwner = boardOwner
     }
 
     override fun makeMove() {
-        val gameEngine = gameEngine ?: throw NullPointerException("Game engine not registered (id null) in player $number")
-//        TODO fix
-//        val children = minimaxInductiveStep(gameEngine.board, number, opponent, 0, 5)
-//        val move = children.maxBy { it.second }?.first ?: throw NullPointerException("Max child move not found in player $number")
-//        gameEngine.board = gameEngine.board.insert(move, number)
+        val boardOwner =
+            boardOwner ?: throw NullPointerException("Game engine not registered (id null) in player $number")
+        val board = boardOwner.provide()
+        val bestMoveWithScore = miniMaxIterativeStep(board, number, 0, 5)
+        boardOwner.update(board.insert(bestMoveWithScore.first, number))
     }
 }
