@@ -15,7 +15,7 @@ class Board(val fields: Array<Array<Int>>) {
         return Board(newFields)
     }
 
-    fun assess(): Int {
+    fun assess(player: Int, opponent: Int): Int {
         // list of diagonals
         val diagonals = fields.diagonals()
         val rows = fields.rows()
@@ -26,13 +26,11 @@ class Board(val fields: Array<Array<Int>>) {
             addAll(columns)
         }
 
-        for (player in 1..2) {
-            if (allDirections.any { list -> list.containsSeqenceOf(4, player) }) {
-                return player
-            }
+        return when {
+            allDirections.any { list -> list.containsSeqenceOf(4, player) } -> Int.MAX_VALUE // player wins opponent loses
+            allDirections.any { list -> list.containsSeqenceOf(4, opponent) } -> Int.MIN_VALUE  // opponent wins player loses
+            else -> 0 // nobody is winning at the time
         }
-
-        return 0
     }
 
     private fun isRowAvailable(row: Int) = fields[row].contains(0)

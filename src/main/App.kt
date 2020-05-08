@@ -2,7 +2,6 @@ package main
 
 
 fun main() {
-    val ge = GameEngine()
+    val ge = GameEngine(PhysicalPlayer(1), PhysicalPlayer(2))
     ge.start()
-
 }
