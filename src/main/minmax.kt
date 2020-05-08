@@ -1,33 +1,66 @@
 package main
 
-fun miniMax(unaffectedBoard: Board, move: Int, turn: Int, level: Int, maxLevel: Int): Pair<Int, Int> {
+fun miniMax(
+    unaffectedBoard: Board,
+    move: Int,
+    turn: Int,
+    level: Int,
+    maxLevel: Int,
+    isLogging: Boolean
+): Pair<Int, Int> {
     val board = unaffectedBoard.insert(move, turn)
-    val moveOptions = board.availableColumns()
+    val nextTurn = if (turn == 1) 2 else 1
+
+    val assessment = board.assess()
 
     val score: Int = when {
+
         // if terminal node then return actual assessment
-        moveOptions.isEmpty() -> board.assess()
+        assessment != 0 -> {
+            if (isLogging) {
+                println()
+                println("Move: $move | Level: $level | Turn: $turn | Score A = $assessment")
+                board.draw()
+                println()
+            }
+            assessment
+        }
 
         // if maximum search depth is exceeded then return value of the heuristic value
-        level > maxLevel -> board.heuristicScore()
+        level >= maxLevel -> {
+            val score = board.assess()
+            if (isLogging) {
+                println()
+                println("Move: $move | Level: $level | Turn: $turn | Score H = $score")
+                board.draw()
+                println()
+            }
+            score
+        }
 
         // else compute minmax foreach child-state of current state
-        else -> miniMaxIterativeStep(board, turn, level, maxLevel).second
+        else -> miniMaxIterativeStep(board, nextTurn, level, maxLevel).second
     }
     return Pair(move, score)
 }
 
-fun miniMaxIterativeStep(board: Board, turn: Int, level: Int, maxLevel: Int): Pair<Int, Int> {
+fun miniMaxIterativeStep(
+    board: Board,
+    turn: Int,
+    level: Int,
+    maxLevel: Int,
+    isLogging: Boolean = false
+): Pair<Int, Int> {
     val moveOptions = board.availableColumns()
     val childMovesWithScores = mutableListOf<Pair<Int, Int>>()
-    val nextTurn = if (turn == 1) 2 else 1
     for (childMove in moveOptions) {
         val result = miniMax(
             board,
             childMove,
-            nextTurn,
+            turn,
             level + 1,
-            maxLevel
+            maxLevel,
+            isLogging
         )
         childMovesWithScores.add(result)
     }

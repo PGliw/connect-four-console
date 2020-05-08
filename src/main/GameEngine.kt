@@ -34,12 +34,14 @@ class GameEngine
     fun start() {
         var winner = 0
         while (true) {
-            // show state
-            board.draw()
+
 
             // if the board is full or somebody won then break
             availableMovements = board.availableColumns()
             if (winner != 0 || availableMovements.isEmpty()) {
+                // show winning board and exit
+                println("\n------ Koniec gry ------")
+                board.draw()
                 break
             }
 
