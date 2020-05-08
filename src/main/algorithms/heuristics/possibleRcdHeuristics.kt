@@ -1,16 +1,22 @@
-package main
+package main.algorithms.heuristics
+
+import main.game.board.Board
+import main.game.board.utils.columns
+import main.game.board.utils.containsSeqenceOf
+import main.game.board.utils.diagonals
+import main.game.board.utils.rows
 
 /**
  * @return (p1 winning rows + columns + diagonals) - (p2 winning rows + columns + diagonals)
  * "winning row / column / diagonal" means that player p1 can still complete 4 items in this row / column / diagonal
  */
-fun Board.heuristicScore(): Int {
+fun Board.possibleRcdHeuristics(): Int {
 
     val lines = mutableListOf<List<Int>>().apply {
         addAll(fields.columns())
         addAll(fields.rows())
         addAll(fields.diagonals())
-    }
+    }.toList()
 
     // if player 1 won then return +Inf
     lines.count { it.containsSeqenceOf(4, 1) }.let { wonLines ->

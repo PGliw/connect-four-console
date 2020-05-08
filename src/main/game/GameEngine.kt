@@ -1,4 +1,7 @@
-package main
+package main.game
+
+import main.game.board.Board
+import main.game.controllers.IPlayerController
 
 interface BoardOwner {
     fun provide(): Board

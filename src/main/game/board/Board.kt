@@ -1,4 +1,6 @@
-package main
+package main.game.board
+
+import main.game.board.utils.*
 
 class Board(val fields: Array<Array<Int>>) {
     fun availableColumns(): List<Int> {

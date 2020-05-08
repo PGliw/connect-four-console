@@ -1,4 +1,4 @@
-package main
+package main.game.board.utils
 
 fun pairsOfDiagonalIndexes(width: Int, height: Int): List<List<Pair<Int, Int>>> {
     val diagonals = mutableListOf<List<Pair<Int, Int>>>()
@@ -65,14 +65,6 @@ fun Array<Array<Int>>.draw() {
         }
         println("|\n-----------------------------")
     }
-}
-
-fun List<Int>.containsSeqenceOf(sequenceLength: Int, vararg element: Int): Boolean {
-    for (i in 0..(size - sequenceLength)) {
-        val slice = this.slice(i until (i + sequenceLength))
-        if (slice.all { it in element }) return true
-    }
-    return false
 }
 
 fun Array<Array<Int>>.deepCopy(): Array<Array<Int>> {
