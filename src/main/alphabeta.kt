@@ -81,11 +81,11 @@ fun alphaBetaIterativeStep(
             val maxChild =
                 childMovesWithScores.maxBy { it.second }?.second ?: throw IllegalArgumentException("max is null")
             currentAlpha = max(currentAlpha, maxChild)
-            if (currentAlpha <= currentBeta) break
+            if (currentBeta <= currentAlpha) break
         } else if (turn == 2) {
             val minChild =
                 childMovesWithScores.minBy { it.second }?.second ?: throw IllegalArgumentException("min is null")
-            currentBeta = min(currentAlpha, minChild)
+            currentBeta = min(currentBeta, minChild)
             if (currentBeta <= currentAlpha) break
 
         } else throw IllegalArgumentException("Turn number $turn is out of range [1, 2]")

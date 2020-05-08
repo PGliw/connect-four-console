@@ -65,7 +65,7 @@ class AlphaBetaAiPlayer(
             boardOwner ?: throw NullPointerException("Game engine not registered (id null) in player $number")
         val board = boardOwner.provide()
         val bestMoveWithScore =
-            alphaBetaIterativeStep(board, number, 0, searchDepth, Int.MAX_VALUE, Int.MIN_VALUE, isLogging)
+            alphaBetaIterativeStep(board, number, 0, searchDepth, Int.MIN_VALUE, Int.MAX_VALUE, isLogging)
         boardOwner.update(board.insert(bestMoveWithScore.first, number))
     }
 }
