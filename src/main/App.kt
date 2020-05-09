@@ -1,10 +1,9 @@
 package main
 
-import main.algorithms.heuristics.possibleRcdHeuristics
 import main.algorithms.heuristics.totalStrikeHeuristics
 import main.game.GameEngine
 import main.game.controllers.AlphaBetaAiPlayer
-import main.game.controllers.PhysicalPlayer
+import main.game.controllers.console.PhysicalPlayer
 
 
 fun main() {
