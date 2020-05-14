@@ -8,8 +8,8 @@ import main.game.controllers.console.PhysicalPlayer
 
 fun main() {
     val ge = GameEngine(
-        PhysicalPlayer(1),
-        AlphaBetaAiPlayer(2, 5, { totalStrikeHeuristics() })
+        AlphaBetaAiPlayer(1, 4, { totalStrikeHeuristics() }),
+        PhysicalPlayer(2)
     )
     ge.start()
 }

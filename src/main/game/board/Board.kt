@@ -17,6 +17,8 @@ class Board(val fields: Array<Array<Int>>) {
         return Board(newFields)
     }
 
+    fun isEmpty() = fields.all { array -> array.all { it == 0 } }
+
     fun assess(): Int {
         // list of diagonals
         val diagonals = fields.diagonals()
@@ -33,6 +35,11 @@ class Board(val fields: Array<Array<Int>>) {
             allDirections.any { list -> list.containsSeqenceOf(4, 2) } -> Int.MIN_VALUE  // player 1 wins player 2 loses
             else -> 0 // nobody is winning at the time
         }
+    }
+
+    fun isColumnAvailable(column: Int): Boolean {
+        val columns = fields.columns()
+        return (columns[column].contains(0))
     }
 
     fun draw() = fields.draw()

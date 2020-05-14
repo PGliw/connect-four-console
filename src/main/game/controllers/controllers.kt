@@ -1,10 +1,10 @@
 package main.game.controllers
 
 import main.algorithms.alphaBeta
-import main.algorithms.heuristics.possibleRcdHeuristics
 import main.algorithms.miniMax
 import main.game.BoardOwner
 import main.game.board.Board
+import kotlin.random.Random
 
 interface IPlayerController {
     val number: Int
@@ -29,9 +29,14 @@ class MiniMaxAiPlayer(
         val boardOwner =
             boardOwner ?: throw NullPointerException("Game engine not registered (id null) in player $number")
         val board = boardOwner.provide()
-        val bestMoveWithScore =
-            miniMax(board, number, 0, searchDepth, heuristics, isLogging)
-        boardOwner.update(board.insert(bestMoveWithScore.first, number))
+        if (board.isEmpty()) {
+            val move = Random.nextInt(7)
+            boardOwner.update(board.insert(move, number))
+        } else {
+            val bestMoveWithScore =
+                miniMax(board, number, 0, searchDepth, heuristics, isLogging)
+            boardOwner.update(board.insert(bestMoveWithScore.first, number))
+        }
     }
 }
 
@@ -52,17 +57,22 @@ class AlphaBetaAiPlayer(
         val boardOwner =
             boardOwner ?: throw NullPointerException("Game engine not registered (id null) in player $number")
         val board = boardOwner.provide()
-        val bestMoveWithScore =
-            alphaBeta(
-                board,
-                number,
-                0,
-                searchDepth,
-                Int.MIN_VALUE,
-                Int.MAX_VALUE,
-                heuristics,
-                isLogging
-            )
-        boardOwner.update(board.insert(bestMoveWithScore.first, number))
+        if (board.isEmpty()) {
+            val move = Random.nextInt(7)
+            boardOwner.update(board.insert(move, number))
+        } else {
+            val bestMoveWithScore =
+                alphaBeta(
+                    board,
+                    number,
+                    0,
+                    searchDepth,
+                    Int.MIN_VALUE,
+                    Int.MAX_VALUE,
+                    heuristics,
+                    isLogging
+                )
+            boardOwner.update(board.insert(bestMoveWithScore.first, number))
+        }
     }
 }
