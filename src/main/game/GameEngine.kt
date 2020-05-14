@@ -12,7 +12,8 @@ interface BoardOwner {
 class GameEngine
     (
     private val player1Controller: IPlayerController,
-    private val player2Controller: IPlayerController
+    private val player2Controller: IPlayerController,
+    private val isPrintingResult: Boolean = false
 ) : BoardOwner {
     private var turn = 1
     private fun nextTurn() {
@@ -34,7 +35,7 @@ class GameEngine
     }
 
     // starts game loop
-    fun start() {
+    fun start(): Int {
         var winner = 0
         while (true) {
 
@@ -43,8 +44,10 @@ class GameEngine
             availableMovements = board.availableColumns()
             if (winner != 0 || availableMovements.isEmpty()) {
                 // show winning board and exit
-                println("\n------ Koniec gry ------")
-                board.draw()
+                if (isPrintingResult) {
+                    println("\n------ Koniec gry ------")
+                    board.draw()
+                }
                 break
             }
 
@@ -62,9 +65,12 @@ class GameEngine
         }
 
         // show result1s
-        when (winner) {
-            0 -> println("Brak zwycięzców")
-            else -> println("Wygrywa: $winner")
+        if (isPrintingResult) {
+            when (winner) {
+                0 -> println("Brak zwycięzców")
+                else -> println("Wygrywa: $winner")
+            }
         }
+        return winner
     }
 }

@@ -40,7 +40,7 @@ class MiniMaxAiPlayer(
         } else {
             val bestMoveWithScore =
                 miniMax(board, number, 0, searchDepth, heuristics, isLogging)
-            boardOwner.update(board.insert(bestMoveWithScore.first, number))
+            boardOwner.update(board.insert(bestMoveWithScore!!.first, number))
         }
         val endTime = System.currentTimeMillis()
         val timeDiff = endTime - startTime
@@ -85,7 +85,7 @@ class AlphaBetaAiPlayer(
                     heuristics,
                     isLogging
                 )
-            boardOwner.update(board.insert(bestMoveWithScore.first, number))
+            boardOwner.update(board.insert(bestMoveWithScore!!.first, number))
         }
         val endTime = System.currentTimeMillis()
         val timeDiff = endTime - startTime
