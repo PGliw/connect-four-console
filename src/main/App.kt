@@ -9,9 +9,11 @@ import java.io.File
 
 
 fun main() {
-    val rows = mutableListOf<String>()
-    for (iteration in 1..5) {
-        for (depth in 2..5) {
+    val rows = mutableListOf("Algorytm;Max głębokość;Heurystyka;Liczba ruchów;Sredni czas")
+    val iterations = 1..5
+    val depths = 2..7
+    for (iteration in iterations) {
+        for (depth in depths) {
             val player1 = MiniMaxAiPlayer(1, depth, { totalStrikeHeuristics() })
             val player2 = MiniMaxAiPlayer(2, depth, { totalStrikeHeuristics() })
             val ge = GameEngine(player1, player2)
@@ -19,9 +21,9 @@ fun main() {
                 1 -> player1
                 else -> player2
             }
-            rows.add("minimax;$depth;totalStrike${player.decisionTimes.size};${player.decisionTimes.average()}")
+            rows.add("minimax;$depth;totalStrike;${player.decisionTimes.size};${player.decisionTimes.average()}")
         }
-        for (depth in 2..5) {
+        for (depth in depths) {
             val player1 = MiniMaxAiPlayer(1, depth, { possibleRcdHeuristics() })
             val player2 = MiniMaxAiPlayer(2, depth, { possibleRcdHeuristics() })
             val ge = GameEngine(player1, player2)
@@ -29,9 +31,9 @@ fun main() {
                 1 -> player1
                 else -> player2
             }
-            rows.add("minimax;$depth;possibleRcdHeuristics${player.decisionTimes.size};${player.decisionTimes.average()}")
+            rows.add("minimax;$depth;possibleRcdHeuristics;${player.decisionTimes.size};${player.decisionTimes.average()}")
         }
-        for (depth in 2..5) {
+        for (depth in depths) {
             val player1 = AlphaBetaAiPlayer(1, depth, { totalStrikeHeuristics() })
             val player2 = AlphaBetaAiPlayer(2, depth, { totalStrikeHeuristics() })
             val ge = GameEngine(player1, player2)
@@ -39,9 +41,9 @@ fun main() {
                 1 -> player1
                 else -> player2
             }
-            rows.add("alfabeta;$depth;totalStrike${player.decisionTimes.size};${player.decisionTimes.average()}")
+            rows.add("alfabeta;$depth;totalStrike;${player.decisionTimes.size};${player.decisionTimes.average()}")
         }
-        for (depth in 2..5) {
+        for (depth in depths) {
             val player1 = AlphaBetaAiPlayer(1, depth, { possibleRcdHeuristics() })
             val player2 = AlphaBetaAiPlayer(2, depth, { possibleRcdHeuristics() })
             val ge = GameEngine(player1, player2)
@@ -49,7 +51,7 @@ fun main() {
                 1 -> player1
                 else -> player2
             }
-            rows.add("alfabeta;$depth;possibleRcdHeuristics${player.decisionTimes.size};${player.decisionTimes.average()}")
+            rows.add("alfabeta;$depth;possibleRcdHeuristics;${player.decisionTimes.size};${player.decisionTimes.average()}")
         }
     }
 
