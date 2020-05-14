@@ -19,6 +19,10 @@ class MiniMaxAiPlayer(
     private val isLogging: Boolean = false
 ) : IPlayerController {
 
+    private val _decisionTimes = mutableListOf<Long>()
+    val decisionTimes: List<Long>
+        get() = _decisionTimes
+
     private var boardOwner: BoardOwner? = null
 
     override fun register(boardOwner: BoardOwner) {
@@ -29,6 +33,7 @@ class MiniMaxAiPlayer(
         val boardOwner =
             boardOwner ?: throw NullPointerException("Game engine not registered (id null) in player $number")
         val board = boardOwner.provide()
+        val startTime = System.currentTimeMillis()
         if (board.isEmpty()) {
             val move = Random.nextInt(7)
             boardOwner.update(board.insert(move, number))
@@ -37,6 +42,9 @@ class MiniMaxAiPlayer(
                 miniMax(board, number, 0, searchDepth, heuristics, isLogging)
             boardOwner.update(board.insert(bestMoveWithScore.first, number))
         }
+        val endTime = System.currentTimeMillis()
+        val timeDiff = endTime - startTime
+        _decisionTimes.add(timeDiff)
     }
 }
 
@@ -47,6 +55,10 @@ class AlphaBetaAiPlayer(
     private val isLogging: Boolean = false
 ) : IPlayerController {
 
+    private val _decisionTimes = mutableListOf<Long>()
+    val decisionTimes: List<Long>
+        get() = _decisionTimes
+
     private var boardOwner: BoardOwner? = null
 
     override fun register(boardOwner: BoardOwner) {
@@ -57,6 +69,7 @@ class AlphaBetaAiPlayer(
         val boardOwner =
             boardOwner ?: throw NullPointerException("Game engine not registered (id null) in player $number")
         val board = boardOwner.provide()
+        val startTime = System.currentTimeMillis()
         if (board.isEmpty()) {
             val move = Random.nextInt(7)
             boardOwner.update(board.insert(move, number))
@@ -74,5 +87,8 @@ class AlphaBetaAiPlayer(
                 )
             boardOwner.update(board.insert(bestMoveWithScore.first, number))
         }
+        val endTime = System.currentTimeMillis()
+        val timeDiff = endTime - startTime
+        _decisionTimes.add(timeDiff)
     }
 }
