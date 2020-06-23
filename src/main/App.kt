@@ -5,10 +5,21 @@ import main.algorithms.heuristics.totalStrikeHeuristics
 import main.game.GameEngine
 import main.game.controllers.AlphaBetaAiPlayer
 import main.game.controllers.MiniMaxAiPlayer
+import main.game.controllers.console.PhysicalPlayer
 import java.io.File
 
 
 fun main() {
+    // makeExperiments() // uncomment to conduct series of experiments
+
+    //val player1 = MiniMaxAiPlayer(1, 4, { totalStrikeHeuristics() })
+    val player1 = PhysicalPlayer(1)
+    val player2 = MiniMaxAiPlayer(2, 4, { totalStrikeHeuristics() })
+    val ge = GameEngine(player1, player2, true)
+    ge.start()
+}
+
+fun makeExperiments() {
     val rows = mutableListOf("Algorytm;Max głębokość;Heurystyka;Liczba ruchów;Sredni czas")
     val iterations = 1..5
     val depths = 2..7
@@ -56,5 +67,4 @@ fun main() {
     }
 
     File("results.txt").printWriter().use { out -> rows.forEach { out.println(it) } }
-
 }
